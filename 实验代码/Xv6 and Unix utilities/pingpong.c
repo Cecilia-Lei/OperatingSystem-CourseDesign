@@ -16,7 +16,8 @@ int main(int argc, char* argv[])
     if (pid < 0) {
         fprintf(2, "Error: Fork failed\n");
         exit(1);
-    } else if (pid == 0) {
+    } 
+    else if (pid == 0) {
         // Child process
         close(fd[1]); // Close unused write end
         
@@ -29,7 +30,8 @@ int main(int argc, char* argv[])
         
         close(fd[0]); // Close read end
         exit(0);
-    } else {
+    } 
+    else {
         // Parent process
         close(fd[0]); // Close unused read end
         

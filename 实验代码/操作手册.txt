@@ -1,0 +1,1 @@
+cd xv6-labsmake qemulab 1:sleep 50pingpongprimesmake cleanecho > bmkdir aecho > a/bfind . b$ sh < xargstest.sh$ $ $ $ $ $ hellohellohello$ $
