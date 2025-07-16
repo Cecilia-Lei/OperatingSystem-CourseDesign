@@ -1,1 +1,1 @@
-cd xv6-labsmake qemulab 1:sleep 50pingpongprimesmake cleanecho > bmkdir aecho > a/bfind . b$ sh < xargstest.sh$ $ $ $ $ $ hellohellohello$ $
+cd xv6-labs-2021make qemulab 1:git checkout utilsleep 50pingpongprimesmake cleanecho > bmkdir aecho > a/bfind . b$ sh < xargstest.shlab 2:git fetchgit checkout syscallmake cleantrace 32 grep hello READMEtrace 2147483647 grep hello READMEgrep hello READMEtrace 2 usertests forkforkforklab 3:git fetchgit checkout pgtbl
