@@ -1,0 +1,26 @@
+## 核心数据结构设计
+线程结构体定义如下：
+struct thread {
+  int tid;                  // 线程ID
+  enum { RUNNING, READY, BLOCKED, EXITED } status;  // 线程状态
+  ucontext_t ctx;           // 线程上下文
+  void *stack;              // 栈指针
+  int joinable;             // 是否可被join
+  void *exit_val;           // 退出值
+  struct thread *next;      // 链表节点（用于就绪/等待队列）
+  condvar_t join_cv;        // 用于join等待的条件变量
+};
+
+就绪队列采用单链表实现，通过全局锁queue_lock保护并发访问。
+
+## thread_create实现步骤
+1. 调用malloc分配thread结构体，mmap分配8KB栈空间（避免栈溢出）。
+2. 调用getcontext初始化ctx，设置栈地址（ctx.uc_stack.ss_sp = stack）和栈大小。
+3. 调用makecontext设置线程入口函数为start_routine，参数为arg。
+4. 为线程分配唯一tid（通过原子操作递增全局计数器）。
+5. 加锁后将线程加入就绪队列，状态设为READY，解锁。
+
+## 遇到的问题及解决
+问题：多线程创建时，就绪队列偶尔出现重复添加线程。
+原因：添加队列时未加锁，导致并发修改链表指针错乱。
+解决：在操作就绪队列的所有步骤（添加、删除、选择下一线程）前后加锁queue_lock。
